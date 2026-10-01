@@ -7,7 +7,7 @@ BRANCH="main"
 RAW_BASE="https://raw.githubusercontent.com/$REPO/$BRANCH"
 DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 TARGET="$DATA_HOME/slick/app"
-DESKTOP_FILE="$HOME/.local/share/applications/dev.slick.byoe.desktop"
+DESKTOP_FILE="$HOME/.local/share/applications/slick.desktop"
 PROFILE="$HOME/.config/slick"
 ICON_SIZES=(16 32 64 128 256 512)
 SLACK_PATHS=(
@@ -151,6 +151,8 @@ find_slack() {
 write_desktop_file() {
   local target="$1"
   local executable="${target}/slick"
+  local icon="slick"
+  [ -f "/usr/share/pixmaps/slack.png" ] && icon="/usr/share/pixmaps/slack.png"
   executable="${executable//\\/\\\\}"
   executable="${executable//\"/\\\"}"
   cat >"$target/slick.desktop" <<EOF
@@ -159,7 +161,7 @@ Type=Application
 Name=Slick
 Comment=Slack client mod (BYOE)
 Exec="$executable" --no-sandbox %U
-Icon=slick
+Icon=$icon
 Terminal=false
 Categories=Network;InstantMessaging;
 MimeType=x-scheme-handler/slack;
